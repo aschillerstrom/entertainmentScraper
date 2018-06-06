@@ -25,9 +25,14 @@ app.use(express.static(process.cwd() + '/public'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// database configuration with mongoose???? NEEDS WORK
+// database configuration with mongoose???? NEEDS WORK  IS THIS RIGHT??
+// If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
-  mongoose.connect('mongodb://localhost/news-scraper');
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 var db = mongoose.connection;
 
