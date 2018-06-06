@@ -47,8 +47,8 @@ db.once('open', function() {
 });
 
 // imports the notes and articles models
-var Comment = require('./models/note.js');
-var Article = require('./models/article.js');
+var comment = require('./models/note.js');
+var article = require('./models/article.js');
 // ---------------------------------------------------------------------------------------------------------------
 
 
