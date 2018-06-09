@@ -53,8 +53,8 @@ db.once('open', function() {
 });
 
 // imports the notes and articles models
-require('./models/note.js');
-require('./models/article.js');
+require('./models/note.js')(app);
+require('./models/article.js')(app);
 // ---------------------------------------------------------------------------------------------------------------
 
 
