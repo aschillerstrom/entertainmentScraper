@@ -66,12 +66,7 @@ db.once('open', function() {
 // Notes an darticle models
 var Comment = require('./models/note.js');
 var Article = require('./models/article.js');
-// ---------------------------------------------------------------------------------------------------------------
 
-// DROP DATABASE (FOR MY PERSONAL REFERENCE ONLY - YOU CAN IGNORE)
-// Article.remove({}, function(err) { 
-//    console.log('collection removed') 
-// });
 
 // Import Routes/Controller
 var router = require('./controllers/controller.js');
