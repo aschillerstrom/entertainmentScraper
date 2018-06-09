@@ -11,6 +11,8 @@ var logger = require('morgan');
 //require mongoose
 var mongoose = require('mongoose');
 
+var bodyParser = require('body-parser');
+
 // Initialize Express
 var app = express();
 app.use(logger('dev'));
@@ -27,15 +29,17 @@ app.set('view engine', 'handlebars');
 
 // database configuration with mongoose???? NEEDS WORK  IS THIS RIGHT??
 
-
-// If deployed, use the deployed database. 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
-
-// Set mongoose to leverage built in JavaScript ES6 Promises
-// Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI);
-
+if(process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI, {
+        useMongoClient: true
+    });
+}
+else {
+    mongoose.connect("mongodb://localhost/onionnews", {
+        useMongoClient: true
+    });
+}
 var db = mongoose.connection;
 
 // display errors
@@ -49,8 +53,8 @@ db.once('open', function() {
 });
 
 // imports the notes and articles models
-var comment = require('./models/note.js');
-var article = require('./models/article.js');
+require('./models/note.js');
+require('./models/article.js');
 // ---------------------------------------------------------------------------------------------------------------
 
 
