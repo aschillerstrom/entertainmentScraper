@@ -5,7 +5,7 @@ var moment = require("moment");
 var mongoose = require('mongoose');
 
 // Create a schema
-var schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 // article schema
 var articleSchema = new Schema({
@@ -38,6 +38,6 @@ var articleSchema = new Schema({
   });
   
   // article model with Mongoose
-  var article = mongoose.model('Article', ArticleSchema);
+  var article = mongoose.model('Article', articleSchema);
   
   module.exports = article;

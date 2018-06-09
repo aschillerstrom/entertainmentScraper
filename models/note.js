@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 // Create schema
-var schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 // comment
 var commentSchema = new Schema({
