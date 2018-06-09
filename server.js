@@ -31,15 +31,12 @@ app.set('view engine', 'handlebars');
 
 mongoose.Promise = Promise;
 if(process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI, {
-        useMongoClient: true
-    });
-}
+    mongoose.connect(process.env.MONGODB_URI) 
+    }
 else {
-    mongoose.connect("mongodb://localhost/onionnews", {
-        useMongoClient: true
-    });
-}
+    mongoose.connect("mongodb://localhost/onionnews")
+    };
+
 var db = mongoose.connection;
 
 // display errors
