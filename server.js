@@ -64,8 +64,8 @@ db.once('open', function() {
 });
 
 // Notes an darticle models
-var Comment = require('./models/note.js');
-var Article = require('./models/article.js');
+var comment = require('./models/note.js');
+var article = require('./models/article.js');
 
 
 // Import Routes/Controller
