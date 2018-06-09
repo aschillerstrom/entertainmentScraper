@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // article schema
-var articleSchema = new Schema({
+var ArticleSchema = new Schema({
 
     title: {
       type: String,
@@ -38,6 +38,6 @@ var articleSchema = new Schema({
   });
   
   // article model with Mongoose
-  var Article = mongoose.model('Article', articleSchema);
+  var Article = mongoose.model('Article', ArticleSchema);
   
   module.exports = Article;
