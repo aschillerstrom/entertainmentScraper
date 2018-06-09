@@ -1,18 +1,34 @@
-// Dependencies
-var express = require("express");
-var bodyParser = require("body-parser");
-var logger = require("morgan");
-var mongoose = require("mongoose");
+// Node Dependencies
+var express = require('express');
+var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-// require all models
-var db = require("../models");
+var logger = require('morgan'); // for debugging
+var request = require('request'); // for web-scraping
+var cheerio = require('cheerio'); // for web-scraping
+
+
+// initialize Express 
+var app = express();
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
+
+// Static Content
+app.use(express.static(process.cwd() + '/public'));
+
+// Express-Handlebars
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+
 
 var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();    
-
-// Configure middleware
 
 // Use morgan logger for logging requests
 app.use(logger("dev"));
@@ -27,26 +43,43 @@ var exphbs = require("express-handlebars");
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-// Set mongoose to leverage built in JavaScript ES6 Promises
-// Connect to the Mongo DB
-mongoose.Promise = Promise;
-if(process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI)}
-else {
-    mongoose.connect("mongodb://localhost/onionnews")
+// Database Configuration with Mongoose
+
+if(process.env.NODE_ENV == 'production'){
+  mongoose.connect('mongodb://heroku_blw35pxv:9imcsk75c78dbe2312np9n9qgd@ds153700.mlab.com:53700/heroku_blw35pxv');
 }
+else{
+  mongoose.connect('mongodb://localhost/onionscraper');
+}
+var db = mongoose.connection;
 
-// routes
-require("./controllers/controller.js")(app);
+// Show any Mongoose errors
+db.on('error', function(err) {
+  console.log('Mongoose Error: ', err);
+});
 
-// start the server
-mongoose.connection.on('error', function(err) {
-    console.log("Mongoose Error: " + err);
-})
+// Once logged in to the db through mongoose, log a success message
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
 
-mongoose.connection.on('open', function() {
-    console.log("Mongoose connection successful.");
-    app.listen(PORT, function() {
-        console.log("App running on port " + PORT);
-    });
+// Notes an darticle models
+var Comment = require('./models/note.js');
+var Article = require('./models/article.js');
+// ---------------------------------------------------------------------------------------------------------------
+
+// DROP DATABASE (FOR MY PERSONAL REFERENCE ONLY - YOU CAN IGNORE)
+// Article.remove({}, function(err) { 
+//    console.log('collection removed') 
+// });
+
+// Import Routes/Controller
+var router = require('./controllers/controller.js');
+app.use('/', router);
+
+
+// Launch App
+var port = process.env.PORT || 3000;
+app.listen(port, function(){
+  console.log('Running on port: ' + port);
 });
