@@ -6,7 +6,7 @@ var cheerio = require('cheerio');
 
 // get the comment/note and article models
 var comment = require('../models/note.js');
-var article = require('../models/article.js');
+var Article = require('../models/article.js');
 
 // home page for site
 router.get('/', function (req, res){
@@ -28,7 +28,6 @@ router.get('/articles', function (req, res){
         else {
           var hbsObject = {articles: doc}
           res.render('index', hbsObject);
-          // res.json(hbsObject)
         }
       }); 
   });
@@ -65,7 +64,7 @@ router.get('/articles', function (req, res){
               titlesArray.push(result.title);
               Article.count({ title: result.title}, function (err, test){
                 if(test == 0){
-                    var entry = new Article (result);
+                    var entry = new article (result);
                     entry.save(function(err, doc) {
                     if (err) {
                       console.log(err);
@@ -105,7 +104,7 @@ router.get('/articles', function (req, res){
     };
   
     // comment model for new comment
-    var entry = new Comment (result);
+    var entry = new comment (result);
     // save it
     entry.save(function(err, doc) {
       // log errors
@@ -136,7 +135,7 @@ router.get('/articles', function (req, res){
     var commentId = req.params.id;
   
     // and delete it by the id
-    Comment.findByIdAndRemove(commentId, function (err, todo) {  
+    comment.findByIdAndRemove(commentId, function (err, todo) {  
       
       if (err) {
         console.log(err);

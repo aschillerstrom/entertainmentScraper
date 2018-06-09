@@ -32,12 +32,12 @@ var articleSchema = new Schema({
   
     comments: [{                                                //should use a different js for notes or can I embed??
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
+      ref: 'comments'
     }]
   
   });
   
   // article model with Mongoose
-  var article = mongoose.model('Article', articleSchema);
+  var Article = mongoose.model('Article', articleSchema);
   
-  module.exports = article;
+  module.exports = Article;
