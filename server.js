@@ -5,7 +5,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 
 // require all models
-var db = require("./models");
+var db = require("../models");
 
 var PORT = process.env.PORT || 3000;
 
