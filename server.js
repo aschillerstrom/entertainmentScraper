@@ -64,7 +64,15 @@ app.use('/', router);
 
 
 // launch app
-var port = process.env.PORT || 3000;
-app.listen(port, function(){
-  console.log('Running on port: ' + port);
+var PORT = process.env.PORT || 3000;
+
+mongoose.connection.on('error', function(err) {
+  console.log("Mongoose Error: " + err);
+})
+
+mongoose.connection.on('open', function() {
+  console.log("Mongoose connection successful.");
+  app.listen(PORT, function() {
+      console.log("App running on port " + PORT);
+  });
 });
